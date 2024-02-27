@@ -35,6 +35,7 @@ public class UserService implements IUserService {
     }
 
     public List<User> getFollowersList(int userId, String sortOrder) {
+        //TODO: Make Unit Test
         List<User> followersList = repository.getFollowersList(userId);
         if (sortOrder != null) {
             if (sortOrder.equals("asc")) {
@@ -51,6 +52,7 @@ public class UserService implements IUserService {
     }
 
     public List<User> getFollowedList(int userId, String sortOrder) {
+        // TODO: Make Unit Test
         List<User> followedList = repository.getFollowedList(userId);
         if (sortOrder != null) {
             if (sortOrder.equals("asc")) {

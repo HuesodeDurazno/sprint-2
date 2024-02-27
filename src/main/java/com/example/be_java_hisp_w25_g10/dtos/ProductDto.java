@@ -1,11 +1,14 @@
 package com.example.be_java_hisp_w25_g10.dtos;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 public record ProductDto(@Positive int productId,
 
                          @NotBlank(message = "El campo no puede estar vacío")
