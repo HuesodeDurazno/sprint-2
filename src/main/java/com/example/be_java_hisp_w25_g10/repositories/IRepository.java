@@ -18,7 +18,7 @@ public interface IRepository {
     List<User> getFollowersList(int userId);
     List<User> getFollowedList(int userId);
 
-    List<Post> getFollowedPosts(int userId, String sortOrder);
+    List<Post> getFollowedPosts(int userId);
     Post addPost(Post newPost);
     List<Post> verPost();
     List<User> getSellers();

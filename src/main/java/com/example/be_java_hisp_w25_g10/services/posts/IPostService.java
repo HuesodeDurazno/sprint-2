@@ -6,7 +6,7 @@ import com.example.be_java_hisp_w25_g10.dtos.PostsDto;
 import java.util.List;
 
 public interface IPostService {
-    PostsDto getPostsFollowed(int userId, String sortOrder);
+    PostsDto getPostsFollowed(int userId);
     PostCreatedDto createPost(PostCreatedDto post);
     List<PostCreatedDto> verPosts();
 }

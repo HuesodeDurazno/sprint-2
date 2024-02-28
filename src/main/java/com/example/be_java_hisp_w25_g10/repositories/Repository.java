@@ -150,7 +150,7 @@ public class Repository implements IRepository {
 
 
 
-    public List<Post> getFollowedPosts(int userId, String sortOrder) {
+    public List<Post> getFollowedPosts(int userId) {
         List<Integer> followedList = this.followers.stream()
                 .filter(follower -> follower.getIdFollower() == userId)
                 .map(Follower::getIdFollowed).toList();

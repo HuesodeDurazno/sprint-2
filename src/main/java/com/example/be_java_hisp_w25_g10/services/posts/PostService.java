@@ -28,8 +28,8 @@ public class PostService implements IPostService {
     IRepository repository;
 
     @Override
-    public PostsDto getPostsFollowed(int userId, String sortOrder) {
-        List<Post> posts = this.repository.getFollowedPosts(userId, sortOrder);
+    public PostsDto getPostsFollowed(int userId) {
+        List<Post> posts = this.repository.getFollowedPosts(userId);
         List<PostDto> postsFollowed = new ArrayList<>();
 
         if (posts.isEmpty()) {

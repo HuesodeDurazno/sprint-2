@@ -10,4 +10,6 @@ class BeJavaHispW25G10ApplicationTests {
 	void contextLoads() {
 	}
 
+
+
 }
