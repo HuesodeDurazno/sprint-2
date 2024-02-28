@@ -65,7 +65,7 @@ public class PostServiceTest {
         }));
 
 
-        when(postRepository.getFollowedPosts(1,sortOrder)).thenReturn(samplePosts);
+        when(postRepository.getFollowedPosts(1)).thenReturn(samplePosts);
 
         PostsDto result = postService.getPostsFollowed(1, sortOrder);
 
@@ -107,7 +107,7 @@ public class PostServiceTest {
         }));
 
 
-        when(postRepository.getFollowedPosts(1,sortOrder)).thenReturn(samplePosts);
+        when(postRepository.getFollowedPosts(1)).thenReturn(samplePosts);
 
         PostsDto result = postService.getPostsFollowed(1, sortOrder);
 
@@ -147,7 +147,7 @@ public class PostServiceTest {
                 )
         }));
 
-        when(postRepository.getFollowedPosts(1,sortOrder)).thenReturn(samplePosts);
+        when(postRepository.getFollowedPosts(1)).thenReturn(samplePosts);
 
         assertThrows(BadRequestException.class , () -> postService.getPostsFollowed(1, sortOrder));
     }

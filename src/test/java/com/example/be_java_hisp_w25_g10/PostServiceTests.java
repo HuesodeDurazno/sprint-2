@@ -66,7 +66,7 @@ public class PostServiceTests {
         when(repository.getFollowedPosts(2)).thenReturn(postsExpected);
 
         //Act
-        PostsDto postsDto = service.getPostsFollowed(2);
+        PostsDto postsDto = service.getPostsFollowed(2,"date_desc");
 
         //Assert
         Assertions.assertTrue(postsDto.posts().get(0).date().isAfter(dateTest));
@@ -78,7 +78,7 @@ public class PostServiceTests {
         when(repository.getFollowedPosts(2)).thenReturn(postsExpected);
 
         //Act
-        PostsDto postsDto = service.getPostsFollowed(2);
+        PostsDto postsDto = service.getPostsFollowed(2,"date_desc");
 
         //Assert
         Assertions.assertEquals(2, postsDto.posts().size());
@@ -91,6 +91,6 @@ public class PostServiceTests {
         when(repository.getFollowedPosts(2)).thenReturn(posts);
 
         //Act & Assert
-        Assertions.assertThrows(NotFoundException.class, () -> service.getPostsFollowed(1));
+        Assertions.assertThrows(NotFoundException.class, () -> service.getPostsFollowed(1,"date_desc"));
     }
 }
