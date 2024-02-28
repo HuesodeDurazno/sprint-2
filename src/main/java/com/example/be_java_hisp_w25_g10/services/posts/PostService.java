@@ -43,7 +43,14 @@ public class PostService implements IPostService {
                 this.convertToProductDto(p.getProduct())
         )));
 
-        postsFollowed.sort(Comparator.comparing(PostDto::date));
+
+        if ("date_desc".equals(sortOrder)) {
+            postsFollowed.sort(Comparator.comparing(PostDto::date).reversed());
+        } else if ("date_asc".equals(sortOrder)) {
+            postsFollowed.sort(Comparator.comparing(PostDto::date));
+        } else {
+            throw new BadRequestException("El tipo de ordenamiento especificado no es válido");
+        }
 
         return new PostsDto(userId, postsFollowed);
     }

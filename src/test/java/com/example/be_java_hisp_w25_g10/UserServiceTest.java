@@ -30,10 +30,8 @@ public class UserServiceTest {
 
     @Test
     public void VerifyCountTest(){
-        
 
         int user_id = 2;
-
 
         User[] usersArray = {
                 new User(1, "user1", "lastName", RolEnum.SELLER),
@@ -53,4 +51,6 @@ public class UserServiceTest {
         assertEquals(followers_list.size(), result.followers_count());
 
     }
+
+
 }
