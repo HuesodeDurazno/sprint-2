@@ -80,7 +80,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void follow(int userId, int followedId) {
+    public boolean follow(int userId, int followedId) {
 
         Optional<User> userToFollow = repository.findUser(followedId);
 
@@ -94,11 +94,21 @@ public class UserService implements IUserService {
 
         if (follower.isEmpty())
             throw new InvalidRequestException("Either one or both users does not exist, or the user to follow is not a seller");
+
+        return true;
     }
 
     @Override
-    public void unFollow(int userId, int followedId) {
+    public boolean unFollow(int userId, int followedId) {
+
+        Optional<User> userToUnfollow = repository.findUser(followedId);
+
+        if (userToUnfollow.isEmpty())
+            throw new NotFoundException("The user to unfollow does not exist");
+
         repository.unFollow(userId, followedId);
+
+        return true;
     }
 
     public CountDto getFollowersNumber(int userId) {

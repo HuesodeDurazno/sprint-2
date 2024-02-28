@@ -1,8 +1,11 @@
 package com.example.be_java_hisp_w25_g10;
 
 import com.example.be_java_hisp_w25_g10.dtos.CountDto;
+import com.example.be_java_hisp_w25_g10.entities.Follower;
 import com.example.be_java_hisp_w25_g10.entities.RolEnum;
 import com.example.be_java_hisp_w25_g10.entities.User;
+import com.example.be_java_hisp_w25_g10.exceptions.InvalidRequestException;
+import com.example.be_java_hisp_w25_g10.exceptions.NotFoundException;
 import com.example.be_java_hisp_w25_g10.repositories.Repository;
 import com.example.be_java_hisp_w25_g10.services.users.UserService;
 import org.junit.jupiter.api.Test;
@@ -14,9 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,5 +55,81 @@ public class UserServiceTest {
         assertEquals("user2", result.user_name());
         assertEquals(followers_list.size(), result.followers_count());
 
+    }
+
+    @Test
+    public void verifyNormalFollowFlowTest() {
+        int userId = 4;
+        int userToFollowId = 2;
+
+        User user = new User(2, "user2", "lastName", RolEnum.SELLER);
+
+        when(userRepository.findUser(userToFollowId)).thenReturn(Optional.of(user));
+        when(userRepository.follow(userId, userToFollowId)).thenReturn(Optional.of(new Follower(4,2)));
+
+        assertTrue(userService.follow(userId,userToFollowId));
+    }
+
+    @Test
+    public void verifyUserToFollowDoesNotExist() {
+        int userId = 4;
+        int userToFollowId = 2;
+
+        when(userRepository.findUser(userToFollowId)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> {
+            userService.follow(userId,userToFollowId);
+        });
+    }
+
+    @Test
+    public void verifyUserToFollowIsNotSeller() {
+        int userId = 4;
+        int userToFollowId = 2;
+
+        User user = new User(2, "user2", "lastName", RolEnum.BUYER);
+
+        when(userRepository.findUser(userToFollowId)).thenReturn(Optional.of(user));
+
+        assertThrows(InvalidRequestException.class, () -> {
+            userService.follow(userId,userToFollowId);
+        });
+    }
+
+    @Test
+    public void verifyRepositoryEmptyResult() {
+        int userId = 4;
+        int userToFollowId = 2;
+
+        User user = new User(2, "user2", "lastName", RolEnum.SELLER);
+
+        when(userRepository.findUser(userToFollowId)).thenReturn(Optional.of(user));
+        when(userRepository.follow(userId, userToFollowId)).thenReturn(Optional.empty());
+
+        assertThrows(InvalidRequestException.class, () -> {
+            userService.follow(userId,userToFollowId);
+        });
+    }
+
+    @Test public void verifyUnfollowNormalFlow() {
+        int userId = 4;
+        int userToUnfollowId = 2;
+
+        User user = new User(2, "user2", "lastName", RolEnum.SELLER);
+
+        when(userRepository.findUser(userToUnfollowId)).thenReturn(Optional.of(user));
+
+        assertTrue(userService.unFollow(userId, userToUnfollowId));
+    }
+
+    @Test public void verifyUserToUnfollowDoesNotExist() {
+        int userId = 4;
+        int userToUnfollowId = 2;
+
+        when(userRepository.findUser(userToUnfollowId)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> {
+            userService.unFollow(userId,userToUnfollowId);
+        });
     }
 }

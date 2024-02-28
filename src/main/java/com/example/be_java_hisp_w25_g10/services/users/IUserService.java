@@ -11,9 +11,9 @@ public interface IUserService {
     public List<User> getFollowersList(int userId, String sortOrder);
     public List<User> getFollowedList(int userId, String sortOrder);
 
-    public void follow(int userId, int followedId);
+    public boolean follow(int userId, int followedId);
 
-    public void unFollow(int userId, int followedId);
+    public boolean unFollow(int userId, int followedId);
 
     public CountDto getFollowersNumber(int userId);
 
