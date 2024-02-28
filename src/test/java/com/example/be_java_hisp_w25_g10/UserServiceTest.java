@@ -16,12 +16,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+import org.junit.jupiter.api.DisplayName;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
@@ -33,10 +34,8 @@ public class UserServiceTest {
 
     @Test
     public void VerifyCountTest(){
-        
 
         int user_id = 2;
-
 
         User[] usersArray = {
                 new User(1, "user1", "lastName", RolEnum.SELLER),
@@ -132,4 +131,44 @@ public class UserServiceTest {
             userService.unFollow(userId,userToUnfollowId);
         });
     }
+    @DisplayName("test order by followers asc")
+    public void getFollowersListAscTest(){
+        String order = "asc";
+        List<User> followersList = new ArrayList<>(List.of(
+                new User(1, "user1", "lastName", RolEnum.SELLER),
+                new User(3, "user3", "lastName", RolEnum.BUYER)
+        ));
+
+
+        if (order.equals("asc")) {
+            followersList.sort(Comparator.comparing(User::getId));
+        }
+
+        when(userRepository.getFollowersList(1)).thenReturn(followersList);
+        List<User> followers_list = userRepository.getFollowersList(1);
+
+        assertEquals(followersList, followers_list);
+    }
+
+    @Test
+    @DisplayName("test order by followers desc")
+    public void getFollowersListDescTest(){
+        String order = "desc";
+        List<User> followersList = new ArrayList<>(List.of(
+                new User(1, "user1", "lastName", RolEnum.SELLER),
+                new User(3, "user3", "lastName", RolEnum.BUYER)
+        ));
+
+
+        if (order.equals("desc")) {
+            followersList.sort(Comparator.comparing(User::getId));
+        }
+
+        when(userRepository.getFollowersList(1)).thenReturn(followersList);
+        List<User> followers_list = userRepository.getFollowersList(1);
+
+        assertEquals(followersList, followers_list);
+    }
+
+
 }

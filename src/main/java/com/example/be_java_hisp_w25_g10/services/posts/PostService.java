@@ -28,8 +28,8 @@ public class PostService implements IPostService {
     IRepository repository;
 
     @Override
-    public PostsDto getPostsFollowed(int userId, String sortOrder) {
-        List<Post> posts = this.repository.getFollowedPosts(userId, sortOrder);
+    public PostsDto getPostsFollowed(int userId,String sortOrder) {
+        List<Post> posts = this.repository.getFollowedPosts(userId);
         List<PostDto> postsFollowed = new ArrayList<>();
 
         if (posts.isEmpty()) {
@@ -43,7 +43,14 @@ public class PostService implements IPostService {
                 this.convertToProductDto(p.getProduct())
         )));
 
-        postsFollowed.sort(Comparator.comparing(PostDto::date));
+
+        if ("date_desc".equals(sortOrder)) {
+            postsFollowed.sort(Comparator.comparing(PostDto::date).reversed());
+        } else if ("date_asc".equals(sortOrder)) {
+            postsFollowed.sort(Comparator.comparing(PostDto::date));
+        } else {
+            throw new BadRequestException("El tipo de ordenamiento especificado no es válido");
+        }
 
         return new PostsDto(userId, postsFollowed);
     }
