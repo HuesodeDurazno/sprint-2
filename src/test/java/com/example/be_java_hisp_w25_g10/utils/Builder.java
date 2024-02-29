@@ -201,4 +201,34 @@ public class Builder {
         return posts;
     }
 
+    public static final List<Post> postsExpected = List.of(
+            new Post(
+                    1,
+                    new User(1, "Martin", "Ushima", RolEnum.SELLER),
+                    LocalDate.now().minusDays(19),
+                    new Product(1,
+                            123,
+                            29.99,
+                            "Producto3",
+                            "Hogar",
+                            "MarcaC",
+                            "Azul",
+                            "Notas sobre el producto")
+            ),
+            new Post(
+                    1,
+                    new User(1, "Camilo", "Jaramillo", RolEnum.SELLER),
+                    LocalDate.now().minusDays(17),
+                    new Product(1,
+                            123,
+                            29.99,
+                            "Producto3",
+                            "Hogar",
+                            "MarcaC",
+                            "Azul",
+                            "Notas sobre el producto"
+                    )
+            )
+    );
+
 }

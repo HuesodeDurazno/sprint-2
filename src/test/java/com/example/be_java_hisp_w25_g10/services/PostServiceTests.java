@@ -36,41 +36,11 @@ public class PostServiceTests {
     @InjectMocks
     PostService service;
 
-    private static final List<Post> postsExpected = List.of(
-            new Post(
-                    1,
-                    new User(1, "Martin", "Ushima", RolEnum.SELLER),
-                    LocalDate.now().minusDays(19),
-                    new Product(1,
-                            123,
-                            29.99,
-                            "Producto3",
-                            "Hogar",
-                            "MarcaC",
-                            "Azul",
-                            "Notas sobre el producto")
-            ),
-            new Post(
-                    1,
-                    new User(1, "Camilo", "Jaramillo", RolEnum.SELLER),
-                    LocalDate.now().minusDays(17),
-                    new Product(1,
-                            123,
-                            29.99,
-                            "Producto3",
-                            "Hogar",
-                            "MarcaC",
-                            "Azul",
-                            "Notas sobre el producto"
-                    )
-            )
-    );
-
     @Test
     public void getPostsFollowedTest() {
         //Arrange
         LocalDate dateTest = LocalDate.now().minusDays(20);
-        when(repository.getFollowedPosts(2)).thenReturn(postsExpected);
+        when(repository.getFollowedPosts(2)).thenReturn(Builder.postsExpected);
 
         //Act
         PostsDto postsDto = service.getPostsFollowed(2,"date_desc");
@@ -82,7 +52,7 @@ public class PostServiceTests {
     @Test
     public void getCountPostsFollowed(){
         //Arrange
-        when(repository.getFollowedPosts(2)).thenReturn(postsExpected);
+        when(repository.getFollowedPosts(2)).thenReturn(Builder.postsExpected);
 
         //Act
         PostsDto postsDto = service.getPostsFollowed(2,"date_desc");
