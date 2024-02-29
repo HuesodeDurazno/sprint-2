@@ -1,4 +1,4 @@
-package com.example.be_java_hisp_w25_g10;
+package com.example.be_java_hisp_w25_g10.services;
 
 import com.example.be_java_hisp_w25_g10.dtos.CountDto;
 import com.example.be_java_hisp_w25_g10.entities.Follower;
@@ -8,6 +8,7 @@ import com.example.be_java_hisp_w25_g10.exceptions.InvalidRequestException;
 import com.example.be_java_hisp_w25_g10.exceptions.NotFoundException;
 import com.example.be_java_hisp_w25_g10.repositories.Repository;
 import com.example.be_java_hisp_w25_g10.services.users.UserService;
+import com.example.be_java_hisp_w25_g10.utils.Builder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.DisplayName;
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UserServiceTests {
 
     @Mock
     private Repository userRepository;
@@ -37,10 +38,7 @@ public class UserServiceTest {
 
         int user_id = 2;
 
-        User[] usersArray = {
-                new User(1, "user1", "lastName", RolEnum.SELLER),
-                new User(3, "user3", "lastName", RolEnum.BUYER),
-        };
+        User[] usersArray = Builder.VerifyCountTestBuilder();
 
         List<User> followersList = new ArrayList<>(Arrays.asList(usersArray));
 

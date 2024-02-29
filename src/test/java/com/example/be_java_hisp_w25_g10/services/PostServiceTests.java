@@ -1,4 +1,4 @@
-package com.example.be_java_hisp_w25_g10;
+package com.example.be_java_hisp_w25_g10.services;
 
 import com.example.be_java_hisp_w25_g10.dtos.PostDto;
 import com.example.be_java_hisp_w25_g10.dtos.PostsDto;
@@ -7,9 +7,11 @@ import com.example.be_java_hisp_w25_g10.entities.Post;
 import com.example.be_java_hisp_w25_g10.entities.Product;
 import com.example.be_java_hisp_w25_g10.entities.RolEnum;
 import com.example.be_java_hisp_w25_g10.entities.User;
+import com.example.be_java_hisp_w25_g10.exceptions.BadRequestException;
 import com.example.be_java_hisp_w25_g10.exceptions.NotFoundException;
 import com.example.be_java_hisp_w25_g10.repositories.IRepository;
 import com.example.be_java_hisp_w25_g10.services.posts.PostService;
+import com.example.be_java_hisp_w25_g10.utils.Builder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -299,5 +303,43 @@ public class PostServiceTests {
         PostsDto actual = service.getPostsFollowed(userId, sortOrder);
         //assert
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testAscSortExist() {
+
+        String sortOrder = "date_asc";
+        List<Post> samplePosts = Builder.testSortExistBuilder();
+
+        when(repository.getFollowedPosts(1)).thenReturn(samplePosts);
+
+        PostsDto result = service.getPostsFollowed(1, sortOrder);
+
+        assertNotNull(result);
+
+    }
+
+    @Test
+    public void testDescSortExist() {
+
+        String sortOrder = "date_desc";
+        List<Post> samplePosts = Builder.testSortExistBuilder();
+
+        when(repository.getFollowedPosts(1)).thenReturn(samplePosts);
+
+        PostsDto result = service.getPostsFollowed(1, sortOrder);
+
+        assertNotNull(result);
+
+    }
+
+    @Test
+    public void testInvalidSortOrder(){
+        String sortOrder = "imvalid";
+        List<Post> samplePosts = Builder.testSortExistBuilder();
+
+        when(repository.getFollowedPosts(1)).thenReturn(samplePosts);
+
+        assertThrows(BadRequestException.class , () -> service.getPostsFollowed(1, sortOrder));
     }
 }
