@@ -49,7 +49,7 @@ public class UserServiceTests {
         List<User> followers_list = userRepository.getFollowersList(user_id);
 
         CountDto result = new CountDto(user_id, "user2", 2);
-       
+
         assertNotNull(result);
         assertEquals(user_id, result.user_id());
         assertEquals("user2", result.user_name());
@@ -137,10 +137,9 @@ public class UserServiceTests {
     @DisplayName("Test exception for sorting followers by name")
     public void testSortFollowersByNameException() {
         // Arrange
-        List<User> followersList = new ArrayList<>(List.of(
-                new User(1, "user1", "lastName", RolEnum.SELLER),
-                new User(3, "user3", "lastName", RolEnum.BUYER)
-        ));
+        User[] usersArray = Builder.VerifyCountTestBuilder();
+
+        List<User> followersList = new ArrayList<>(Arrays.asList(usersArray));
         when(userRepository.getFollowersList(1)).thenReturn(followersList);
 
         // Act - Assert
@@ -153,10 +152,8 @@ public class UserServiceTests {
     @DisplayName("Test exception for sorting followed by name")
     public void testSortFollowedByNameException() {
         // Arrange
-        List<User> followedList = new ArrayList<>(List.of(
-                new User(1, "user1", "lastName", RolEnum.SELLER),
-                new User(3, "user3", "lastName", RolEnum.BUYER)
-        ));
+        User[] usersArray = Builder.VerifyCountTestBuilder();
+        List<User> followedList = new ArrayList<>(Arrays.asList(usersArray));
         when(userRepository.getFollowedList(1)).thenReturn(followedList);
 
         // Act - Assert
@@ -165,14 +162,12 @@ public class UserServiceTests {
         });
     }
 
-        @Test
-        @DisplayName("test order by followers asc")
+    @Test
+    @DisplayName("test order by followers asc")
     public void getFollowersListAscTest(){
         String order = "asc";
-        List<User> followersList = new ArrayList<>(List.of(
-                new User(1, "user1", "lastName", RolEnum.SELLER),
-                new User(3, "user3", "lastName", RolEnum.BUYER)
-        ));
+        User[] usersArray = Builder.VerifyCountTestBuilder();
+        List<User> followersList = new ArrayList<>(Arrays.asList(usersArray));
 
 
         if (order.equals("asc")) {
@@ -189,10 +184,8 @@ public class UserServiceTests {
     @DisplayName("test order by followers desc")
     public void getFollowersListDescTest(){
         String order = "desc";
-        List<User> followersList = new ArrayList<>(List.of(
-                new User(1, "user1", "lastName", RolEnum.SELLER),
-                new User(3, "user3", "lastName", RolEnum.BUYER)
-        ));
+        User[] usersArray = Builder.VerifyCountTestBuilder();
+        List<User> followersList = new ArrayList<>(Arrays.asList(usersArray));
 
 
         if (order.equals("desc")) {
@@ -205,6 +198,41 @@ public class UserServiceTests {
         assertEquals(followersList, followers_list);
     }
 
+    @Test
+    @DisplayName("test order by followed asc")
+    public void getFollowedListAscTest(){
+        String order = "asc";
+        User[] usersArray = Builder.VerifyCountTestBuilder();
+        List<User> followedList = new ArrayList<>(Arrays.asList(usersArray));
+
+
+        if (order.equals("asc")) {
+            followedList.sort(Comparator.comparing(User::getId));
+        }
+
+        when(userRepository.getFollowedList(1)).thenReturn(followedList);
+        List<User> followed_list = userRepository.getFollowedList(1);
+
+        assertEquals(followedList, followed_list);
+    }
+
+    @Test
+    @DisplayName("test order by followed desc")
+    public void getFollowedListDescTest(){
+        String order = "desc";
+        User[] usersArray = Builder.VerifyCountTestBuilder();
+        List<User> followedList = new ArrayList<>(Arrays.asList(usersArray));
+
+
+        if (order.equals("desc")) {
+            followedList.sort(Comparator.comparing(User::getId));
+        }
+
+        when(userRepository.getFollowedList(1)).thenReturn(followedList);
+        List<User> followed_list = userRepository.getFollowedList(1);
+
+        assertEquals(followedList, followed_list);
+    }
 
 
 }
