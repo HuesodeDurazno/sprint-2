@@ -62,7 +62,7 @@ public class UserServiceTests {
         int userId = 4;
         int userToFollowId = 2;
 
-        User user = new User(2, "user2", "lastName", RolEnum.SELLER);
+        User user = Builder.seller;
 
         when(userRepository.findUser(userToFollowId)).thenReturn(Optional.of(user));
         when(userRepository.follow(userId, userToFollowId)).thenReturn(Optional.of(new Follower(4,2)));
@@ -87,7 +87,7 @@ public class UserServiceTests {
         int userId = 4;
         int userToFollowId = 2;
 
-        User user = new User(2, "user2", "lastName", RolEnum.BUYER);
+        User user = Builder.buyer;
 
         when(userRepository.findUser(userToFollowId)).thenReturn(Optional.of(user));
 
@@ -101,7 +101,7 @@ public class UserServiceTests {
         int userId = 4;
         int userToFollowId = 2;
 
-        User user = new User(2, "user2", "lastName", RolEnum.SELLER);
+        User user = Builder.seller;
 
         when(userRepository.findUser(userToFollowId)).thenReturn(Optional.of(user));
         when(userRepository.follow(userId, userToFollowId)).thenReturn(Optional.empty());
@@ -115,7 +115,7 @@ public class UserServiceTests {
         int userId = 4;
         int userToUnfollowId = 2;
 
-        User user = new User(2, "user2", "lastName", RolEnum.SELLER);
+        User user = Builder.seller;
 
         when(userRepository.findUser(userToUnfollowId)).thenReturn(Optional.of(user));
 

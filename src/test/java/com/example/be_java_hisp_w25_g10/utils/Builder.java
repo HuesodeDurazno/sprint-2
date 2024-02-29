@@ -231,4 +231,9 @@ public class Builder {
             )
     );
 
+    public static final User seller = new User(2, "user2", "lastName", RolEnum.SELLER);
+
+    public static final User buyer = new User(2, "user2", "lastName", RolEnum.BUYER);
+
+
 }
