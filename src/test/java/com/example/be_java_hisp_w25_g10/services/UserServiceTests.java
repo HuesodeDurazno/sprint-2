@@ -1,9 +1,11 @@
 package com.example.be_java_hisp_w25_g10.services;
 
 import com.example.be_java_hisp_w25_g10.dtos.CountDto;
+import com.example.be_java_hisp_w25_g10.dtos.FollowedFollowerDto;
 import com.example.be_java_hisp_w25_g10.entities.Follower;
 import com.example.be_java_hisp_w25_g10.entities.RolEnum;
 import com.example.be_java_hisp_w25_g10.entities.User;
+import com.example.be_java_hisp_w25_g10.exceptions.BadRequestException;
 import com.example.be_java_hisp_w25_g10.exceptions.InvalidRequestException;
 import com.example.be_java_hisp_w25_g10.exceptions.NotFoundException;
 import com.example.be_java_hisp_w25_g10.repositories.Repository;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -129,7 +132,41 @@ public class UserServiceTests {
             userService.unFollow(userId,userToUnfollowId);
         });
     }
-    @DisplayName("test order by followers asc")
+
+    @Test
+    @DisplayName("Test exception for sorting followers by name")
+    public void testSortFollowersByNameException() {
+        // Arrange
+        List<User> followersList = new ArrayList<>(List.of(
+                new User(1, "user1", "lastName", RolEnum.SELLER),
+                new User(3, "user3", "lastName", RolEnum.BUYER)
+        ));
+        when(userRepository.getFollowersList(1)).thenReturn(followersList);
+
+        // Act - Assert
+        assertThrows(InvalidRequestException.class, () -> {
+            userService.getFollowersList(1, "invalidSortCriteria");
+        });
+    }
+
+    @Test
+    @DisplayName("Test exception for sorting followed by name")
+    public void testSortFollowedByNameException() {
+        // Arrange
+        List<User> followedList = new ArrayList<>(List.of(
+                new User(1, "user1", "lastName", RolEnum.SELLER),
+                new User(3, "user3", "lastName", RolEnum.BUYER)
+        ));
+        when(userRepository.getFollowedList(1)).thenReturn(followedList);
+
+        // Act - Assert
+        assertThrows(InvalidRequestException.class, () -> {
+            userService.getFollowedList(1, "invalidSortCriteria");
+        });
+    }
+
+        @Test
+        @DisplayName("test order by followers asc")
     public void getFollowersListAscTest(){
         String order = "asc";
         List<User> followersList = new ArrayList<>(List.of(
@@ -167,6 +204,7 @@ public class UserServiceTests {
 
         assertEquals(followersList, followers_list);
     }
+
 
 
 }

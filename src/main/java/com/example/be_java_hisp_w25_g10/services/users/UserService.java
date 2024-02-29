@@ -46,6 +46,8 @@ public class UserService implements IUserService {
                 followersList = followersList.stream()
                         .sorted(Comparator.comparing(User::getName).reversed())
                         .collect(Collectors.toList());
+            }else {
+                throw new InvalidRequestException("Invalid sort order: " + sortOrder);
             }
         }
         return followersList;
@@ -63,6 +65,8 @@ public class UserService implements IUserService {
                 followedList = followedList.stream()
                         .sorted(Comparator.comparing(User::getName).reversed())
                         .collect(Collectors.toList());
+            }else {
+                throw new InvalidRequestException("Invalid sort order: " + sortOrder);
             }
         }
         return followedList;
@@ -120,5 +124,6 @@ public class UserService implements IUserService {
 
         return new CountDto(userSearched.get().getId(), userSearched.get().getName(), repository.getFollowersList(userId).size());
     }
+
 
 }
