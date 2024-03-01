@@ -1,5 +1,6 @@
 package com.example.be_java_hisp_w25_g10.utils;
 
+import com.example.be_java_hisp_w25_g10.dtos.PostCreatedDto;
 import com.example.be_java_hisp_w25_g10.dtos.PostDto;
 import com.example.be_java_hisp_w25_g10.dtos.PostsDto;
 import com.example.be_java_hisp_w25_g10.dtos.ProductDto;
@@ -229,6 +230,40 @@ public class Builder {
                             "Notas sobre el producto"
                     )
             )
+    );
+
+    public static final PostCreatedDto postToCreate = new PostCreatedDto(
+            1,
+            "10-03-2024",
+            new Product(
+                    1,
+                    1,
+                    10,
+                    "Aire acondicionado",
+                    "Electrodomestico",
+                    "Samsung",
+                    "Gris",
+                    "Aire acondicionado ultima generación"
+            ),
+            1,
+            10
+    );
+
+    public static final PostCreatedDto postToCreateInvalidDate = new PostCreatedDto(
+            1,
+            "",
+            new Product(
+                    1,
+                    1,
+                    10,
+                    "Aire acondicionado",
+                    "Electrodomestico",
+                    "Samsung",
+                    "Gris",
+                    "Aire acondicionado ultima generación"
+            ),
+            1,
+            10
     );
 
 }
